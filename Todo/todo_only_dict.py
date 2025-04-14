@@ -19,9 +19,7 @@ def save_tasks():
     
 def add_task():
     task_description = input("Enter task description-")
-    priority = input("Enter priority(High or Medium or Low)-").capitalize()
-    if priority not in ["High", "Medium", "Low"]:
-        priority = "Low"
+    priority = input("Enter priority(High or Medium or Low)-")
     task = {"description": task_description, "completed": False, "priority": priority}
     tasks.append(task)
     save_tasks()
@@ -30,15 +28,12 @@ def view_tasks():
     if not tasks:
         print("No tasks found")
     else:
-        priorities = ["High","Medium","Low"]
-        for p in priorities:
-            for index, task in enumerate(tasks):
-                if task.get("priority", "Low") == p:
-                    if task["completed"]:
-                        status = "[X]"
-                    else:
-                        status = "[ ]"
-                    print(f"TASK {index+1}: {status} {task['description']} {task['priority']}") 
+        for index, task in enumerate(tasks):
+            if task["completed"]:
+                status = "[X]"
+            else:
+                status = "[ ]"
+            print(f"TASK {index+1}: {status} {task['description']} {task['priority']}") 
 
 def mark_complete():
     index = int(input("enter the index of task you want to mark as complete-")) -1
@@ -60,16 +55,17 @@ def delete_task():
 
 def search_task():
     keyword = input("enter any keyword-").lower()
+    found = False
     for i, task in enumerate(tasks):
         if keyword in task["description"].lower():
-            if task["completed"] == True:
+            found = True
+            if task["completed"]:
                 status = "[X]"
             else:
                 status = "[ ]"
             print(f"TASK {i + 1}: {status} {task['description']}")
-    else:
-        if not any(keyword in task["description"].lower() for task in tasks):
-            print("task not found")
+    if not found:
+        print("task not found")
 
 
 def main():
