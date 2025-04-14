@@ -18,7 +18,7 @@ def load_tasks():
             tasks = []
             for task in data:
                 description = task["description"]
-                priority = task.get("priority", "Low")
+                priority = task["priority"]
                 tasks.append(Task(description, priority))
     except:
         tasks = []
@@ -33,9 +33,7 @@ def save_tasks():
 
 def add_task():
     task_description = input("Enter task description-")
-    priority = input("Enter priority(High or Medium or Low)-").capitalize()
-    if priority not in ["High","Medium","Low"]:
-        priority = "Low"
+    priority = input("Enter priority(High or Medium or Low)-")
     task = Task(task_description, priority)
     tasks.append(task)
     save_tasks()
@@ -44,12 +42,12 @@ def view_tasks():
     if not tasks:
         print("No tasks found")
     else:
-        priorities = ["High","Medium","Low"]
-        for p in priorities:
-            for index, task in enumerate(tasks):
-                if task.priority == p:
-                    status = "[X]" if task.completed else "[ ]"
-                    print(f"TASK {index + 1}: {status} {task.description} {task.priority})")
+        for index, task in enumerate(tasks):
+            if task.completed == True:
+                status = "[X]"
+            else:
+                status = "[ ]"
+            print(f"TASK {index + 1}: {status} {task.description} {task.priority}")
 
 def mark_complete():
     index = int(input("Enter the index of task you want to mark as complete-")) - 1
@@ -69,17 +67,18 @@ def delete_task():
 
 def search_task():
     keyword = input("Enter any keyword-").lower()
+    found = False
     for i, task in enumerate(tasks):
         if keyword in task.description.lower():
-            if task["completed"] == True:
+            found = True
+            if task.description:
                 status = "[X]"
             else:
                 status = "[ ]"
             print(f"TASK {i + 1}: {status} {task.description} {task.priority})")
-    else:
-        if not any(keyword in task.description.lower() for task in tasks):
-            print("task not found")
-
+    if not found:
+        print("task not found")
+        
 def main():
     load_tasks()
     while True:
