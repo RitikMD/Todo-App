@@ -1,5 +1,5 @@
 
-# To-Do List Application
+# To-Do List Application (todo_mysql)
 
 A simple To-Do list application built using **SQLModel** and **MySQL**. The application allows you to add, view, mark tasks as complete/incomplete, delete tasks, and search tasks.
 
